@@ -7,36 +7,42 @@ import time
 class main:
     def __init__(self):
         self.keyboard = pynput.keyboard.Controller()
-        self.text = "Hello World!"
-        self.message = "Good day!"
-        self.time = 0
         self.save = []
         self.config = {
             "text": "Hello World!",
             "message": "Good day!",
             "time": "0"
         }
-
         try:
-            with open('config.json') as i:
+            with open('config.json', 'r') as i:
                 self.save = json.load(i)
+
+            self.text = self.save['text']
+            self.message = self.save['message']
+            self.time = int(self.save['time'])
+
+            if(self.text == ""):
+                self.text = "Hello World!"
+            if(self.message == ""):
+                self.message = "Good Day!"
+            if(self.time == ""):
+                self.message = 0
         except:
             with open('config.json', 'w') as i:
-                print(i)
                 json.dump(self.config, i)
-
-        self.text = self.save['text']
-        self.text = self.save['text']
-        self.text = self.save['text']
 
     def settings(self):
         option = input("Options/")
 
         if(option == 'm' or option == 'M'):
             self.message = input("Options/Message/")
+            self.save['message'] = self.message
+            with open('config.json', 'w') as i:
+                json.dump(self.save, i)
             self.settings()
         elif(option == 'Q' or option == 'q'):
             self.main()
+
 
     def write(self):
         time.sleep(self.time)
