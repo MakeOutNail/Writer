@@ -1,3 +1,11 @@
+#@message HAVE FUN :)
+#
+#@author 007username007
+#@created 12.04.2022
+#@LastUpdate 12.04.2022
+#
+
+
 import pynput
 import json
 import time
@@ -40,7 +48,22 @@ class main:
             with open('config.json', 'w') as i:
                 json.dump(self.save, i)
             self.settings()
+        if(option == 't' or option == 'T'):
+            self.message = input("Options/Time/")
+            self.save['time'] = self.time
+            with open('config.json', 'w') as i:
+                json.dump(self.save, i)
+            self.settings()
+        if(option == 'w' or option == 'W'):
+            self.message = input("Options/Text/")
+            self.save['text'] = self.message
+            with open('config.json', 'w') as i:
+                json.dump(self.save, i)
+            self.settings()
         elif(option == 'Q' or option == 'q'):
+            self.main()
+
+        else:
             self.main()
 
 
@@ -50,21 +73,16 @@ class main:
 
     def main(self):
 
-        print("")
+        print("*****************************************")
         print(self.message)
-        print("")
+        print("*****************************************")
 
-        print("Do you want to go into setting mode?[y]")
-        settings = input(":")
+        print("Y - Go to the settings")
+        print("Press ENTER - Start the process")
+        settings = input("/")
 
         if(settings == 'y' or settings == 'Y'):
             self.settings()
-
-        print("****************************************")
-        self.text = input("Text:")
-        print("****************************************")
-        self.time = int(input("Text/PerSecond:"))
-        print("****************************************")
 
         time.sleep(3)
 
