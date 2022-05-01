@@ -2,11 +2,12 @@
 #
 #@author 007username007
 #@created 12.04.2022
-#@LastUpdate 13.04.2022
+#@LastUpdate 01.05.2022
 #
 
 
 import pynput
+from pynput.keyboard import Key
 import json
 import time
 
@@ -19,7 +20,8 @@ class main:
         self.config = {
             "text": "Hello World!",
             "message": "Good day!",
-            "time": "0"
+            "time": 0,
+            "wordwrap": "True"
         }
         try:
             with open('config.json', 'r') as i:
@@ -35,9 +37,9 @@ class main:
             if(self.message == ""):
                 self.message = "Good Day!"
             if(self.time == None):
-                self.message = 0
+                self.time = 0
             if(self.wordwrap == None):
-                self.wordwrap = True
+                self.wordwrap = "True"
 
         except:
             with open('config.json', 'w') as i:
@@ -59,28 +61,33 @@ class main:
                 json.dump(self.save, i)
             self.settings()
         if(option == 't' or option == 'T'):
-            self.message = input("Options/Time/")
-            self.save['time'] = self.time
+            self.time = input("Options/Time/")
+
+            if(self.time.isnumeric() == False):
+                self.time = 1
+
+            self.save['time'] = int(self.time)
             with open('config.json', 'w') as i:
                 json.dump(self.save, i)
             self.settings()
         if(option == 'w' or option == 'W'):
-            self.message = input("Options/Text/")
-            self.save['text'] = self.message
+            self.text = input("Options/Text/")
+            self.save['text'] = self.text
             with open('config.json', 'w') as i:
                 json.dump(self.save, i)
             self.settings()
         if(option == 'n' or option == 'N'):
             self.wordwrap = input("Options/LineBreak/")
-            if(self.wordwrap != True or self.wordwrap != False):
-                self.wordwrap = True
+            if(self.wordwrap == "True" or self.wordwrap == "true" or self.wordwrap == "T" or self.wordwrap == "t"):
+                self.wordwrap = "True"
+            else:
+                self.wordwrap = "False"
             self.save['wordwrap'] = self.wordwrap
             with open('config.json', 'w') as i:
                 json.dump(self.save, i)
             self.settings()
         elif(option == 'Q' or option == 'q'):
             self.main()
-
         else:
             self.main()
 
@@ -88,6 +95,9 @@ class main:
     def write(self):
         time.sleep(self.time)
         self.keyboard.type(self.text)
+        if(self.wordwrap == "True"):
+            self.keyboard.press(Key.enter)
+            self.keyboard.release(Key.enter)
 
     def main(self):
 
