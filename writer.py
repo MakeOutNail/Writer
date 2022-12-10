@@ -2,7 +2,7 @@
 #
 #@author 007username007
 #@created 12.04.2022
-#@LastUpdate 01.05.2022
+#@LastUpdate 12.10.2022
 #
 
 
@@ -11,6 +11,7 @@ import pynput
 from pynput.keyboard import Key
 import json
 import time
+import sys
 
 
 
@@ -52,7 +53,7 @@ class main:
         print("N - Line break settings(True-->Line break after each word)(False-->No line break)")
         print("T - Changes the time(Pause after each word)")
         print("W - Changes the text")
-        print("Q - Settings are exited")
+        print("Q - Exit")
         option = input("Options/")
 
         if(option == 'm' or option == 'M'):
@@ -112,8 +113,17 @@ class main:
 
         if(settings == 'y' or settings == 'Y'):
             self.settings()
+        elif(settings == "exit" or settings == "Exit" or settings == "quit" or settings == "close"):
+            sys.exit()
 
-        time.sleep(3)
+        count_begin = 4
+        while(count_begin > 0):
+            count_begin-=1
+
+            sys.stdout.write("\r" + str(count_begin) + " Seconds")
+            sys.stdout.flush()
+
+            time.sleep(1)
 
         while(True):
             self.write()
